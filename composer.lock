@@ -1054,6 +1054,7 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
             "version": "v12.43.1",
             "source": {
                 "type": "git",
@@ -1064,6 +1065,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/195b893593a9298edee177c0844132ebaa02102f",
                 "reference": "195b893593a9298edee177c0844132ebaa02102f",
+=======
+            "version": "v12.42.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "509b33095564c5165366d81bbaa0afaac28abe75"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/509b33095564c5165366d81bbaa0afaac28abe75",
+                "reference": "509b33095564c5165366d81bbaa0afaac28abe75",
+>>>>>>> 8d3a7e5bd4bd47c057e4a2248e0e5784ab860923
                 "shasum": ""
             },
             "require": {
@@ -1272,7 +1285,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+<<<<<<< HEAD
             "time": "2025-12-16T18:53:08+00:00"
+=======
+            "time": "2025-12-09T15:51:23+00:00"
+>>>>>>> 8d3a7e5bd4bd47c057e4a2248e0e5784ab860923
         },
         {
             "name": "laravel/prompts",
@@ -3015,6 +3032,7 @@
         },
         {
             "name": "psy/psysh",
+<<<<<<< HEAD
             "version": "v0.12.18",
             "source": {
                 "type": "git",
@@ -3025,6 +3043,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/bobthecow/psysh/zipball/ddff0ac01beddc251786fe70367cd8bbdb258196",
                 "reference": "ddff0ac01beddc251786fe70367cd8bbdb258196",
+=======
+            "version": "v0.12.17",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bobthecow/psysh.git",
+                "reference": "85fbbd9f3064e157fc21fe4362b2b5c19f2ea631"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/85fbbd9f3064e157fc21fe4362b2b5c19f2ea631",
+                "reference": "85fbbd9f3064e157fc21fe4362b2b5c19f2ea631",
+>>>>>>> 8d3a7e5bd4bd47c057e4a2248e0e5784ab860923
                 "shasum": ""
             },
             "require": {
@@ -3088,9 +3118,15 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/bobthecow/psysh/tree/v0.12.18"
             },
             "time": "2025-12-17T14:35:46+00:00"
+=======
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.17"
+            },
+            "time": "2025-12-15T04:55:34+00:00"
+>>>>>>> 8d3a7e5bd4bd47c057e4a2248e0e5784ab860923
         },
         {
             "name": "ralouphie/getallheaders",
