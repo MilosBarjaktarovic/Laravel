@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @extends('layout')
 
 @section('title')
@@ -16,16 +15,19 @@ Prodavnica
     @foreach($products as $product)
     <li>{{$product ['name']}}</li>
 
-    @if($product ["discount"])
-    <p class="badge bg-danger">On Sale!!!</p>
-    @endif
+    <li>{{$product ['description']}}</li>
+    <li>{{$product ['price']}}</li>
+    <li>{{$product ['amount']}}</li>
 
+
+
+    <li><img src="{{$product ['image']}}" alt="Product Image" width="100"></li>
+    <br>
     @endforeach
 
 </ul>
 
 @endsection
-=======
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,4 +44,3 @@ Prodavnica
 </body>
 
 </html>
->>>>>>> 8d3a7e5bd4bd47c057e4a2248e0e5784ab860923

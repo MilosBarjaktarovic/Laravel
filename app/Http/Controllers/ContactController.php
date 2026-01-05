@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Contact;
 
 class ContactController extends Controller
 {
     public function index()
     {
-        return view('contact'); // ovo je tvoj Blade fajl contact.blade.php
+        $contacts = Contact::all(); 
+
+        return view('admin.allContacts', compact('contacts'));
     }
+    public function indexContact()
+    {
+        return view('contact');
+    }
+   
 }

@@ -6,27 +6,10 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-public function index()
+public function shopIndex()
 {
 
-$products = [
-    [
-        'name'=>"iPhone 14",
-        'discount' => true
-    ],
-    [
-        'name'=>"iPhone 13 pro",
-        'discount' => true
-    ],
-    [
-        'name'=>"Samsung Galaxy S22",
-        'discount' => false
-    ],
-    [
-        'name'=>"Samsung A54",
-        'discount' => false
-    ]
-];
+    $products = \App\Models\Product::all();
 
     return view('shop', compact('products'));
 }

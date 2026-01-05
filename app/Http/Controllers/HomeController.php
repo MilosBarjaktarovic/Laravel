@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 
 class HomeController extends Controller
 {
 
    
-   public function index()
+   public function homeIndex()
    {
-   $realTime = date('H:i:s');
-   $realDate = date('Y-m-d');
-   return view('home', compact('realTime', 'realDate'));
+   $products = Product::latest()->take(6)->get();
+   return view('home', compact('products'));
    }
 }
