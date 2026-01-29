@@ -45,7 +45,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+<<<<<<< HEAD
     public function ocene(){
         return $this->hasMany(Ocene::class);
     }
+=======
+>>>>>>> 3faf0935aace4f9e4e1c2cfea8a82898d5c33d4f
 }
