@@ -1,46 +1,57 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
 use App\Http\Controllers\OcenaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ContactController;
 
+// =======================
+// Rute za Ocene
+// =======================
 Route::get('/', [OcenaController::class, 'index'])->name('ocene.index');
-
-Route::get('/dodaj-ocenu', [OcenaController::class, 'create'])->name('ocene.create'); 
-
+Route::get('/dodaj-ocenu', [OcenaController::class, 'create'])->name('ocene.create');
 Route::post('/dodaj-ocenu', [OcenaController::class, 'store'])->name('ocene.store');
 
-Route::get('/register',[AuthController::class, 'showRegistrationForm'])->name('register.form'); 
-Route::post('/register',[AuthController::class, 'register'])->name('register'); 
+// =======================
+// Rute za Registraciju i Login
+// =======================
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register.form');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-Route::get('/login',[AuthController::class, 'showLoginForm'])->name('login.form'); 
-Route::post('/login',[AuthController::class, 'login'])->name('login'); 
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
-=======
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ProductController;
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::view('/about', 'about')->name('about');
+// =======================
+// Rute za Kontakt formu
+// =======================
+// Prikaz forme
+Route::get('/contact', [ContactController::class, 'indexContact'])->name('contact.form');
 
+// Slanje forme (POST)
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.send');
 
-Route::get('/contact', [ContactController::class, 'indexContact'])->name('contact');
+// =======================
+// Admin panel - proizvodi
+// =======================
+Route::middleware(['auth', 'isAdmin'])->group(function () {
 
+    // Lista proizvoda
+    Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
 
-Route::get('/admin/contact', [ContactController::class, 'index'])->name('admin.contact');
+    // Dodavanje proizvoda
+    Route::get('/admin/add-product', [ProductController::class, 'create'])->name('admin.add-product');
+    Route::post('/admin/add-product', [ProductController::class, 'store'])->name('admin.store-product');
 
+    // Izmena proizvoda
+    Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
+    Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('admin.products.update');
 
-Route::get('/shop', [App\Http\Controllers\ShopController::class, 'shopIndex'])->name('shop');
+    // Brisanje proizvoda
+    Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 
-Route::get('/welcome', [App\Http\Controllers\WelcomeController::class, 'index'])->name('welcome');
-
-Route::post("/send-contact",[ContactController::class,'sendContact'])->name('send.contact');
-
-Route::get('/admin/add-product', [ProductController::class, 'create']);
-
-Route::post('/admin/add-product', [ProductController::class, 'store']);
-
-Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
->>>>>>> 3faf0935aace4f9e4e1c2cfea8a82898d5c33d4f
+    // Admin - svi kontakti
+    Route::get('/admin/contacts', [ContactController::class, 'index'])->name('admin.contacts');
+});

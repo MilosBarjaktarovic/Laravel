@@ -4,13 +4,20 @@
 
 @section('content')
 <div class="container my-5">
+
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
     <div class="row">
 
         <!-- Contact form -->
         <div class="col-md-6">
             <h2 class="mb-4">Contact Us</h2>
 
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('contact.send') }}">
                 @csrf
 
                 <div class="mb-3">
@@ -37,10 +44,8 @@
         <!-- Map image -->
         <div class="col-md-6 mt-4 mt-md-0">
             <h5>Our Location</h5>
-
             <div class="ratio ratio-16x9 shadow rounded">
-                <iframe src="https://www.google.com/maps?q=0,0&z=2&output=embed" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                <iframe src="https://www.google.com/maps?q=0,0&z=2&output=embed" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
 

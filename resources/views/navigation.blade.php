@@ -1,17 +1,17 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('shop') }}">Shop</a>
+        <a class="navbar-brand" href="/">MyShop</a>
 
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('home') }}">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('about') }}">About</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('contact') }}">Contact</a>
-            </li>
-        </ul>
+        <div>
+            @auth
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button class="btn btn-danger btn-sm">Logout</button>
+            </form>
+            @else
+            <a href="{{ route('login.form') }}" class="btn btn-primary btn-sm">Login</a>
+            <a href="{{ route('register.form') }}" class="btn btn-success btn-sm">Register</a>
+            @endauth
+        </div>
     </div>
 </nav>

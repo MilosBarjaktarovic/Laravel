@@ -41,14 +41,14 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role' => 'string'
+
         ];
     }
-<<<<<<< HEAD
     public function ocene(){
         return $this->hasMany(Ocene::class);
     }
-=======
->>>>>>> 3faf0935aace4f9e4e1c2cfea8a82898d5c33d4f
 }
