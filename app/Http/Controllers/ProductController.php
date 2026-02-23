@@ -15,10 +15,11 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:products,name',
             'price' => 'required|numeric',
             'description' => 'required|string',
             'amount' => 'required|integer',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         Product::create([
@@ -26,6 +27,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'description' => $request->description,
             'amount' => $request->amount,
+            'image' => $request->hasFile('image') ? $request->file('image')->store('products', 'public') : null,
         ]);
 
         return redirect('/admin/products')->with('success', 'Proizvod dodat!');

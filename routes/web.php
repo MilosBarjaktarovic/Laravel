@@ -25,33 +25,32 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // =======================
-// Rute za Kontakt formu
+// Kontakt forma - korisnik
 // =======================
-// Prikaz forme
 Route::get('/contact', [ContactController::class, 'indexContact'])->name('contact.form');
-
-// Slanje forme (POST)
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.send');
 
 // =======================
-// Admin panel - proizvodi
+// Admin panel - middleware auth + isAdmin
 // =======================
 Route::middleware(['auth', 'isAdmin'])->group(function () {
 
-    // Lista proizvoda
+    // Admin – lista proizvoda
     Route::get('/admin/products', [ProductController::class, 'index'])->name('admin.products');
-
-    // Dodavanje proizvoda
     Route::get('/admin/add-product', [ProductController::class, 'create'])->name('admin.add-product');
     Route::post('/admin/add-product', [ProductController::class, 'store'])->name('admin.store-product');
-
-    // Izmena proizvoda
     Route::get('/admin/products/{id}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
     Route::put('/admin/products/{id}', [ProductController::class, 'update'])->name('admin.products.update');
-
-    // Brisanje proizvoda
     Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 
-    // Admin - svi kontakti
+    // Admin – lista kontakata
     Route::get('/admin/contacts', [ContactController::class, 'index'])->name('admin.contacts');
+    Route::get('/admin/allContacts', [ContactController::class, 'index'])->name('admin.allContacts');   
+
+    // Edit kontakt
+    Route::get('/admin/contacts/{id}/edit', [ContactController::class, 'edit'])->name('admin.contacts.edit');
+    Route::put('/admin/contacts/{id}', [ContactController::class, 'update'])->name('admin.contacts.update');
+
+    // Delete kontakt
+    Route::delete('/admin/contacts/{id}', [ContactController::class, 'destroy'])->name('admin.contacts.destroy');
 });
