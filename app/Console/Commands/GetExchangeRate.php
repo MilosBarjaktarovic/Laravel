@@ -28,7 +28,7 @@ class GetExchangeRate extends Command
         $response = Http::get('https://open.er-api.com/v6/latest/RSD');
 
         if (!$response->successful()) {
-            $this->error('API nije dostupan!');
+            $this->error('API nije dostupan ili ga nema trenutno!');
             return Command::FAILURE;
         }
 
