@@ -1,3 +1,33 @@
+@extends('layout')
+
+@section('title')
+
+Prodavnica
+
+@endsection
+
+
+@section('content')
+
+<p>Welcome to ur shop page!!!</p>
+
+<ul>
+    @foreach($products as $product)
+    <li>{{$product ['name']}}</li>
+
+    <li>{{$product ['description']}}</li>
+    <li>{{$product ['price']}}</li>
+    <li>{{$product ['amount']}}</li>
+
+
+
+    <li><img src="{{$product ['image']}}" alt="Product Image" width="100"></li>
+    <br>
+    @endforeach
+
+</ul>
+
+@endsection
 <!DOCTYPE html>
 <html lang="en">
 

@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html>
+@extends('layout')
 
-<head>
-    <title>Welcome</title>
-</head>
+@section('title')
 
-<body>
-    <h1>Welcome to Shop</h1>
+Glavna stranica
 
-    <nav>
-        <a href="/">Welcome</a>
-        <a href="/home">Home</a>
-        <a href="/about">About</a>
-        <a href="/shop">Shop</a>
-        <a href="/contact">Contact</a>
-    </nav>
+@endsection
 
-    <p>Ovo je glavna stranica.</p>
-</body>
+@section('content')
 
-</html>
+<p>Real time: {{ date('h:i:s') }} </p>
+
+@endsection

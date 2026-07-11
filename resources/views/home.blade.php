@@ -1,16 +1,21 @@
-<!DOCTYPE html>
+@extends('layout')
 
-<html lang="en">
+@section('title', 'Home')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home Page</title>
-</head>
+@section('content')
+<h2 class="mb-4">Latest Products</h2>
 
-<body>
-    <h1>Welcome to the Home Page</h1>
-</body>
-
-</html>
+<div class="row">
+    @foreach($products as $product)
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ $product->name }}</h5>
+                <p class="card-text">{{ $product->description }}</p>
+                <p><strong>Price:</strong> ${{ $product->price }}</p>
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
+@endsection

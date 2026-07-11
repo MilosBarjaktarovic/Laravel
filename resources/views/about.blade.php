@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+@extends('layout')
+
+@section('title')
+
+O nama
+
+@endsection
+
+@section('content')
+
+<p>Welcome to our about page!!!</p>
+
+@endsection
+=======
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,3 +29,4 @@
 </body>
 
 </html>
+>>>>>>> 8d3a7e5bd4bd47c057e4a2248e0e5784ab860923
