@@ -6,16 +6,19 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsAdmin
+class AdminMiddleware
 {
+    /**
+     * Handle an incoming request.
+     */
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->check()) {
-            return redirect()->route('login.form');
+            return redirect()->route('login');
         }
 
         if (auth()->user()->role !== 'admin') {
-            abort(403, 'Nemate dozvolu za pristup ovoj stranici.');
+            abort(403, 'You do not have permission to access this page.');
         }
 
         return $next($request);

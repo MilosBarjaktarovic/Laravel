@@ -12,10 +12,11 @@ class Kernel extends HttpKernel
      * @var array<string, class-string>
      */
     protected $middlewareAliases = [
+
         'auth' => \App\Http\Middleware\Authenticate::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
 
-        // OVO DODAJEŠ:
-        'isAdmin' => \App\Http\Middleware\IsAdmin::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+
     ];
 }

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Console\Command;
+use App\Models\ExchangeRate;
 
 class GetExchangeRate extends Command
 {
@@ -36,14 +37,25 @@ class GetExchangeRate extends Command
 
         $eur = round(1 / $data['rates']['EUR'], 2);
         $usd = round(1 / $data['rates']['USD'], 2);
+        $rub = round(1 / $data['rates']['RUB'], 2);
+
+       ExchangeRate::getCurrencyForToday('EUR', $eur);
+       ExchangeRate::getCurrencyForToday('USD', $usd);
+       ExchangeRate::getCurrencyForToday('RUB', $rub);
+
+
+
 
         $this->info('==========================');
         $this->info('Exchange Rates');
         $this->info('==========================');
+
         $this->line('Date: '.$data['time_last_update_utc']);
         $this->line('');
+
         $this->line("1 EUR = {$eur} RSD");
         $this->line("1 USD = {$usd} RSD");
+        $this->line("1 RUB = {$rub} RSD");
 
         return Command::SUCCESS;
     }

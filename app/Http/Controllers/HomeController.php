@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Product;
-
+use App\Repositories\ProductRepository;
 
 class HomeController extends Controller
 {
+    private $productRepo;
 
-   
-   public function homeIndex()
-   {
-   $products = Product::latest()->take(6)->get();
-   return view('home', compact('products'));
-   }
+    public function __construct(ProductRepository $productRepo)
+    {
+        $this->productRepo = $productRepo;
+    }
+
+    public function homeIndex()
+    {
+        $products = $this->productRepo->getLatestProducts();
+
+        return view('home', compact('products'));
+    }
 }

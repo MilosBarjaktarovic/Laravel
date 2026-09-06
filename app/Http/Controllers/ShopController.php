@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Repositories\ProductRepository;
 
 class ShopController extends Controller
 {
-public function shopIndex()
-{
+    private $productRepo;
 
-    $products = \App\Models\Product::all();
+    public function __construct(ProductRepository $productRepo)
+    {
+        $this->productRepo = $productRepo;
+    }
 
-    return view('shop', compact('products'));
-}
+    public function shopIndex()
+    {
+        $products = $this->productRepo->getAll();
+
+        return view('shop', compact('products'));
+    }
 }

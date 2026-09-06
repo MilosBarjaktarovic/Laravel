@@ -11,20 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ocene', function (Blueprint $table) {
+        Schema::create('get_exchange_rates', function (Blueprint $table) {
             $table->id();
-            $table->string('predmet', 100);
-            $table->unsignedInteger('ocena');
-            $table->string('profesor', 100);
+            $table->string('currency', 10);
+            $table->decimal('value', 10);
+            $table ->date('date');
             $table->timestamps();
+            $table->unique(['currency', 'date']);
+
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('ocene');
+        Schema::dropIfExists('get_exchange_rates');
     }
 };

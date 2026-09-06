@@ -2,54 +2,76 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+use App\Repositories\ProductRepository;
 
 class ProductController extends Controller
 {
+    private $productRepo;
+
+    public function __construct(ProductRepository $productRepo)
+    {
+        $this->productRepo = $productRepo;
+    }
+
     public function create()
     {
         return view('admin.add-product');
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:products,name',
-            'price' => 'required|numeric',
-            'description' => 'required|string',
-            'amount' => 'required|integer',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        $data = $request->validated();
 
-        Product::create([
-            'name' => $request->name,
-            'price' => $request->price,
-            'description' => $request->description,
-            'amount' => $request->amount,
-            'image' => $request->hasFile('image') ? $request->file('image')->store('products', 'public') : null,
-        ]);
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')
+                ->store('products', 'public');
+        }
 
-        return redirect('/admin/products')->with('success', 'Proizvod dodat!');
+        $this->productRepo->create($data);
+
+        return redirect()
+            ->route('admin.products')
+            ->with('success', 'Proizvod dodat!');
     }
 
     public function index()
     {
-        $products = Product::all();
+        $products = $this->productRepo->getAll();
+
         return view('admin.products', compact('products'));
-        
     }
+
     public function destroy($id)
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
+        $this->productRepo->delete($id);
 
-        return redirect('/admin/products')->with('success', 'Proizvod obrisan!');
+        return redirect()
+            ->route('admin.products')
+            ->with('success', 'Proizvod obrisan!');
     }
 
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
+        $product = $this->productRepo->findById($id);
+
         return view('admin.edit-product', compact('product'));
+    }
+
+    public function update(UpdateProductRequest $request, $id)
+    {
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')
+                ->store('products', 'public');
+        }
+
+        $this->productRepo->update($id, $data);
+
+        return redirect()
+            ->route('admin.products')
+            ->with('success', 'Proizvod uspešno izmenjen.');
     }
 }

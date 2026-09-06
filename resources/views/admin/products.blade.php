@@ -55,7 +55,7 @@
             </tbody>
         </table>
 
-        <a href="{{ route('admin.add-product') }}" class="btn btn-success">
+        <a href="{{ route('admin.products.create') }}" class="btn btn-success">
             Dodaj novi proizvod
         </a>
     </div>

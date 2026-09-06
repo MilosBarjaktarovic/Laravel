@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Contact;
+use App\Http\Requests\ContactRequest;
+use App\Repositories\ContactRepository;
 
 class ContactController extends Controller
 {
+    private $contactRepo;
+
+    public function __construct(ContactRepository $contactRepo)
+    {
+        $this->contactRepo = $contactRepo;
+    }
+
     // Korisnička kontakt stranica
     public function indexContact()
     {
@@ -14,54 +21,52 @@ class ContactController extends Controller
     }
 
     // Čuvanje poruke iz kontakt forme
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
-        ]);
+        $this->contactRepo->create(
+            $request->validated()
+        );
 
-        Contact::create($request->only(['email', 'subject', 'message']));
-
-        return redirect()->back()->with('success', 'Poruka poslata!');
+        return redirect()->back()
+            ->with('success', 'Poruka poslata!');
     }
 
     // Admin panel – svi kontakti
     public function index()
     {
-        $contacts = Contact::all();
+        $contacts = $this->contactRepo->getAll();
+
         return view('admin.allContacts', compact('contacts'));
     }
 
     // Admin – edit kontakt
     public function edit($id)
     {
-        $contact = Contact::findOrFail($id);
+        $contact = $this->contactRepo->findById($id);
+
         return view('admin.edit-contact', compact('contact'));
     }
 
     // Admin – update kontakt
-    public function update(Request $request, $id)
+    public function update(ContactRequest $request, $id)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
-        ]);
+        $this->contactRepo->update(
+            $id,
+            $request->validated()
+        );
 
-        $contact = Contact::findOrFail($id);
-        $contact->update($request->only(['email', 'subject', 'message']));
-
-        return redirect()->route('admin.contacts')->with('success', 'Kontakt ažuriran!');
+        return redirect()
+            ->route('admin.contacts')
+            ->with('success', 'Kontakt ažuriran!');
     }
 
     // Admin – delete kontakt
     public function destroy($id)
     {
-        $contact = Contact::findOrFail($id);
-        $contact->delete();
+        $this->contactRepo->delete($id);
 
-        return redirect()->route('admin.contacts')->with('success', 'Kontakt obrisan!');
+        return redirect()
+            ->route('admin.contacts')
+            ->with('success', 'Kontakt obrisan!');
     }
 }

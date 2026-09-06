@@ -1,58 +1,63 @@
-@extends('layouts.app')
+@extends('layout')
 
-@section('title', 'Dodaj proizvod')
+@section('title', 'Add Product')
 
 @section('content')
 
-<div class="card shadow">
-    <div class="card-header bg-primary text-white">
-        Dodaj proizvod
+<div class="container my-5">
+
+    <h2 class="mb-4">Add Product</h2>
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
+    @endif
 
-    <div class="card-body">
+    <form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data">
 
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+        @csrf
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+
+            <input type="text" name="name" class="form-control" value="{{ old('name') }}">
         </div>
-        @endif
 
-        <form method="POST" action="{{ route('admin.store-product') }}">
-            @csrf
+        <div class="mb-3">
+            <label class="form-label">Price</label>
 
-            <div class="mb-3">
-                <label>Naziv</label>
-                <input type="text" name="name" class="form-control" value="{{ old('name') }}">
-            </div>
+            <input type="number" step="0.01" name="price" class="form-control" value="{{ old('price') }}">
+        </div>
 
-            <div class="mb-3">
-                <label>Cena</label>
-                <input type="number" name="price" class="form-control" value="{{ old('price') }}">
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
 
-            <div class="mb-3">
-                <label>Količina</label>
-                <input type="number" name="amount" class="form-control" value="{{ old('amount') }}">
-            </div>
+            <textarea name="description" class="form-control" rows="5">{{ old('description') }}</textarea>
+        </div>
 
-            <div class="mb-3">
-                <label>Opis</label>
-                <textarea name="description" class="form-control">{{ old('description') }}</textarea>
-            </div>
+        <div class="mb-3">
+            <label class="form-label">Amount</label>
 
-            <div class="mb-3">
-                <label>Slika</label>
-                <input type="file" name="image" class="form-control" value="{{ old('image') }}">
-            </div>
+            <input type="number" name="amount" class="form-control" value="{{ old('amount') }}">
+        </div>
 
-            <button class="btn btn-success">Sačuvaj</button>
-        </form>
+        <div class="mb-3">
+            <label class="form-label">Image</label>
 
-    </div>
+            <input type="file" name="image" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Add Product
+        </button>
+
+    </form>
+
 </div>
 
 @endsection

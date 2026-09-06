@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ocene; 
+use App\Repositories\OcenaRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+
 
 
 class OcenaController extends Controller
 {
+    private $ocenaRepo;
 
-     public function __construct()
-     {
-     $this->middleware('auth')->only(['create', 'store']);
-     }
+    public function __construct(OcenaRepository $ocenaRepo)
+    {
+        $this->middleware('auth')->only(['create', 'store']);
+
+        $this->ocenaRepo = $ocenaRepo;
+    }
 
     public function index()
     {
-        $ocene = Ocene::all();
+        $ocene = $this->ocenaRepo->getAll();
         return view('ocene', compact('ocene'));
     }
 
@@ -35,15 +37,16 @@ class OcenaController extends Controller
             'profesor' => 'required|string|max:255'
         ]);
 
-        Ocene::create([
+        $this->ocenaRepo->create([
             'predmet' => $request->predmet,
             'ocena' => $request->ocena,
             'profesor' => $request->profesor,
-            'user_id' => auth()->id()
+            'user_id' => auth()->id(),
+
         ]);
 
         return redirect()->route('ocene.index')->with('success', 'Ocena je uspešno dodata.');
     }
 
-   
+
 }
