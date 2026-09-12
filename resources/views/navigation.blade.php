@@ -4,13 +4,14 @@
 
         <div>
             @auth
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+            <form action="{{ route('auth.logout') }}" method="POST" class="d-inline">
                 @csrf
                 <button class="btn btn-danger btn-sm">Logout</button>
             </form>
             @else
-            <a href="{{ route('login.form') }}" class="btn btn-primary btn-sm">Login</a>
-            <a href="{{ route('register.form') }}" class="btn btn-success btn-sm">Register</a>
+            <a href="{{ route('auth.login.form') }}" class="btn btn-primary btn-sm">Login</a>
+            <a href="{{ route('auth.register.form') }}" class="btn btn-success btn-sm">Register</a>
+
             @endauth
         </div>
     </div>

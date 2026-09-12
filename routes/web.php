@@ -11,99 +11,106 @@ use App\Http\Controllers\ContactController;
 // Ocene
 // =======================
 
-Route::get('/', [OcenaController::class, 'index'])
-    ->name('ocene.index');
+Route::name('ocene.')->group(function () {
 
-Route::get('/dodaj-ocenu', [OcenaController::class, 'create'])
-    ->name('ocene.create');
+    Route::get('/', [OcenaController::class, 'index'])
+        ->name('index');
 
-Route::post('/dodaj-ocenu', [OcenaController::class, 'store'])
-    ->name('ocene.store');
+    Route::get('/dodaj-ocenu', [OcenaController::class, 'create'])
+        ->name('create');
+
+    Route::post('/dodaj-ocenu', [OcenaController::class, 'store'])
+        ->name('store');
+
+});
 
 
 // =======================
 // Auth
 // =======================
 
-Route::get('/register', [AuthController::class, 'showRegistrationForm'])
-    ->name('register.form');
+Route::name('auth.')->group(function () {
 
-Route::post('/register', [AuthController::class, 'register'])
-    ->name('register');
+    Route::get('/register', [AuthController::class, 'showRegistrationForm'])
+        ->name('register.form');
 
+    Route::post('/register', [AuthController::class, 'register'])
+        ->name('register');
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])
-    ->name('login.form');
+    Route::get('/login', [AuthController::class, 'showLoginForm'])
+        ->name('login.form');
 
-Route::post('/login', [AuthController::class, 'login'])
-    ->name('login');
+    Route::post('/login', [AuthController::class, 'login'])
+        ->name('login');
 
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
 
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->name('logout');
+});
 
 
 // =======================
 // Kontakt
 // =======================
 
-Route::get('/contact', [ContactController::class, 'indexContact'])
-    ->name('contact.form');
+Route::name('contact.')->group(function () {
 
-Route::post('/contact', [ContactController::class, 'store'])
-    ->name('contact.send');
+    Route::get('/contact', [ContactController::class, 'indexContact'])
+        ->name('form');
 
+    Route::post('/contact', [ContactController::class, 'store'])
+        ->name('send');
+
+});
 
 
 // =======================
 // ADMIN PANEL
 // =======================
 
-Route::middleware(['auth', 'isAdmin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'isAdmin'])
+->prefix('admin')
+->name('admin.')
+->group(function () {
 
 
-    // Products
+// =======================
+// Products
+// =======================
 
-    Route::get('/products', [ProductController::class, 'index'])
-        ->name('admin.products');
+Route::get('/products', [ProductController::class, 'index'])
+->name('products');
 
+Route::get('/products/create', [ProductController::class, 'create'])
+->name('products.create');
 
-    Route::get('/products/create', [ProductController::class, 'create'])
-        ->name('admin.products.create');
+Route::post('/products', [ProductController::class, 'store'])
+->name('products.store');
 
+Route::get('/products/{id}/edit', [ProductController::class, 'edit'])
+->name('products.edit');
 
-    Route::post('/products', [ProductController::class, 'store'])
-        ->name('admin.products.store');
+Route::put('/products/{id}', [ProductController::class, 'update'])
+->name('products.update');
 
-
-    Route::get('/products/{id}/edit', [ProductController::class, 'edit'])
-        ->name('admin.products.edit');
-
-
-    Route::put('/products/{id}', [ProductController::class, 'update'])
-        ->name('admin.products.update');
-
-
-    Route::delete('/products/{id}', [ProductController::class, 'destroy'])
-        ->name('admin.products.destroy');
+Route::delete('/products/{id}', [ProductController::class, 'destroy'])
+->name('products.destroy');
 
 
+// =======================
+// Contacts
+// =======================
 
-    // Contacts
+Route::get('/contacts', [ContactController::class, 'index'])
+->name('contacts');
 
-    Route::get('/contacts', [ContactController::class, 'index'])
-        ->name('admin.contacts');
+Route::get('/contacts/{id}/edit', [ContactController::class, 'edit'])
+->name('contacts.edit');
 
+Route::put('/contacts/{id}', [ContactController::class, 'update'])
+->name('contacts.update');
 
-    Route::get('/contacts/{id}/edit', [ContactController::class, 'edit'])
-        ->name('admin.contacts.edit');
-
-
-    Route::put('/contacts/{id}', [ContactController::class, 'update'])
-        ->name('admin.contacts.update');
-
-
-    Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])
-        ->name('admin.contacts.destroy');
+Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])
+->name('contacts.destroy');
 
 });
