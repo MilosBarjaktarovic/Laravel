@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Repositories\ProductRepository;
+use App\Models\Product;
+
+
 
 class ProductController extends Controller
 {
@@ -42,6 +45,13 @@ class ProductController extends Controller
 
         return view('admin.products', compact('products'));
     }
+    
+    public function permalink(Product $product)
+    {
+        return view('admin.permalink', compact('product'));
+
+
+    }
 
     public function destroy($id)
     {
@@ -74,4 +84,6 @@ class ProductController extends Controller
             ->route('admin.products')
             ->with('success', 'Proizvod uspešno izmenjen.');
     }
+
+   
 }

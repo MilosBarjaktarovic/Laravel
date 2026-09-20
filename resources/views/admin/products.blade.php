@@ -37,6 +37,11 @@
                     <td>{{ $product->description }}</td>
                     <td>
 
+
+                        <a href="{{ route('products.permalink', $product->id) }}" class="btn btn-info btn-sm">
+                            Detaljnije
+                        </a>
+
                         <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-primary btn-sm">
                             Izmeni
                         </a>
@@ -48,6 +53,7 @@
                                 Obriši
                             </button>
                         </form>
+
 
                     </td>
                 </tr>

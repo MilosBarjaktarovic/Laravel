@@ -11,6 +11,14 @@
                 Početna
             </a>
 
+            <a href="{{ route('shop') }}" class="btn btn-outline-light btn-sm">
+                Shop
+            </a>
+
+            <a href="{{ route('cart.index') }}" class="btn btn-outline-light btn-sm">
+                🛒 Korpa
+            </a>
+
             <a href="{{ route('ocene.index') }}" class="btn btn-outline-light btn-sm">
                 Ocene
             </a>

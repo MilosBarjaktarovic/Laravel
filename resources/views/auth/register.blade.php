@@ -8,7 +8,7 @@
 </ul>
 @endif
 
-<form method="POST" action="{{ route('auth.register') }}">
+<form method="POST" action="{{ route('register') }}">
     @csrf
     <div>
         <label>Name:</label>
@@ -28,4 +28,4 @@
     </div>
     <button type="submit">Register</button>
 </form>
-<a href="{{ route('auth.login.form') }}">Login</a>
+<a href="{{ route('login.form') }}">Login</a>

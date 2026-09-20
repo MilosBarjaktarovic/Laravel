@@ -5,6 +5,8 @@ use App\Http\Controllers\OcenaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ShopController;
 
 
 // =======================
@@ -13,24 +15,33 @@ use App\Http\Controllers\ContactController;
 
 Route::name('ocene.')->group(function () {
 
-Route::get('/ocene', [OcenaController::class, 'index'])
-->name('index');
+    Route::get('/ocene', [OcenaController::class, 'index'])
+        ->name('index');
 
-Route::get('/dodaj-ocenu', [OcenaController::class, 'create'])
-->name('create');
+    Route::get('/dodaj-ocenu', [OcenaController::class, 'create'])
+        ->name('create');
 
-Route::post('/dodaj-ocenu', [OcenaController::class, 'store'])
-->name('store');
+    Route::post('/dodaj-ocenu', [OcenaController::class, 'store'])
+        ->name('store');
 
 });
+
 
 // =======================
 // WELCOME
 // =======================
 
 Route::get('/', function () {
-return view('welcome');
+    return view('welcome');
 })->name('home');
+
+
+// =======================
+// SHOP
+// =======================
+
+Route::get('/shop', [ShopController::class, 'shopIndex'])
+    ->name('shop');
 
 
 // =======================
@@ -117,3 +128,25 @@ Route::middleware(['auth', 'isAdmin'])
             ->name('contacts.destroy');
 
     });
+
+
+// =======================
+// PRODUCT PERMALINK
+// =======================
+
+Route::get('admin/products/{product}', [ProductController::class, 'permalink'])
+    ->name('products.permalink');
+
+
+// =======================
+// CART
+// =======================
+
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])
+    ->name('cart.add');
+
+Route::get('/cart', [CartController::class, 'index'])
+    ->name('cart.index');
+
+Route::delete('/cart/{id}', [CartController::class, 'remove'])
+    ->name('cart.remove');

@@ -1,46 +1,67 @@
 @extends('layout')
 
 @section('title')
-
 Prodavnica
-
 @endsection
-
 
 @section('content')
 
-<p>Welcome to ur shop page!!!</p>
+@if(session('success'))
+<p>{{ session('success') }}</p>
+@endif
+
+@if(session('error'))
+<p>{{ session('error') }}</p>
+@endif
+
+<h1>Welcome to the Shop</h1>
 
 <ul>
+
     @foreach($products as $product)
-    <li>{{$product ['name']}}</li>
 
-    <li>{{$product ['description']}}</li>
-    <li>{{$product ['price']}}</li>
-    <li>{{$product ['amount']}}</li>
+    <li>
+        <strong>{{ $product['name'] }}</strong>
+    </li>
 
+    <li>
+        Opis: {{ $product['description'] }}
+    </li>
 
+    <li>
+        Cena: {{ $product['price'] }}
+    </li>
 
-    <li><img src="{{$product ['image']}}" alt="Product Image" width="100"></li>
+    <li>
+        Stanje: {{ $product['amount'] }}
+    </li>
+
+    <li>
+        <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}" width="100">
+    </li>
+
+    <form action="{{ route('cart.add') }}" method="POST">
+
+        @csrf
+
+        <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+
+        <label for="quantity-{{ $product['id'] }}">
+            Količina:
+        </label>
+
+        <input type="number" id="quantity-{{ $product['id'] }}" name="quantity" value="1" min="1" max="{{ $product['amount'] }}">
+
+        <button type="submit">
+            Dodaj u korpu
+        </button>
+
+    </form>
+
     <br>
+
     @endforeach
 
 </ul>
 
 @endsection
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Shop</title>
-</head>
-
-<body>
-    <h1>Welcome to the Shop</h1>
-    <p>Browse our collection of products and enjoy shopping!</p>
-</body>
-
-</html>
