@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ShopCart extends Model
 {
     protected $fillable = [
+        'user_id',
         'product_id',
         'quantity',
     ];

@@ -39,4 +39,14 @@ class ProductRepository
     {
         return Product::latest()->take($limit)->get();
     }
+
+    public function decreaseAmount($productId, $quantity)
+    {
+    $product = $this->findById($productId);
+
+    $product->amount -= $quantity;
+    $product->save();
+
+    return $product;
+    }
 }

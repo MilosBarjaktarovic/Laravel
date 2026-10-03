@@ -107,11 +107,21 @@ Korpa
                 Ukupno za plaćanje:
                 <strong>
                     {{ $cartItems->sum(function ($cartItem) {
-                            return $cartItem->product->price * $cartItem->quantity;
-                        }) }}
+                        return $cartItem->product->price * $cartItem->quantity;
+                    }) }}
                     din
                 </strong>
             </h3>
+
+            <form action="{{ route('cart.checkout') }}" method="POST" class="mt-3">
+
+                @csrf
+
+                <button type="submit" class="btn btn-success">
+                    Završi kupovinu
+                </button>
+
+            </form>
 
         </div>
 

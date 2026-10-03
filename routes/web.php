@@ -134,19 +134,25 @@ Route::middleware(['auth', 'isAdmin'])
 // PRODUCT PERMALINK
 // =======================
 
-Route::get('admin/products/{product}', [ProductController::class, 'permalink'])
-    ->name('products.permalink');
-
+Route::get('/products/{product}', [ProductController::class, 'permalink'])
+->name('products.permalink');
 
 // =======================
 // CART
 // =======================
 
+Route::middleware('auth')->group(function () {
+
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])
-    ->name('cart.add');
+->name('cart.add');
 
 Route::get('/cart', [CartController::class, 'index'])
-    ->name('cart.index');
+->name('cart.index');
+
+Route::post('/cart/checkout',[CartController::class, 'checkout'])
+->name('cart.checkout');
 
 Route::delete('/cart/{id}', [CartController::class, 'remove'])
-    ->name('cart.remove');
+->name('cart.remove');
+
+});
