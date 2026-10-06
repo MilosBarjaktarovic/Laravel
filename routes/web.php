@@ -1,30 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OcenaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ShopController;
 
-
-// =======================
-// Ocene
-// =======================
-
-Route::name('ocene.')->group(function () {
-
-    Route::get('/ocene', [OcenaController::class, 'index'])
-        ->name('index');
-
-    Route::get('/dodaj-ocenu', [OcenaController::class, 'create'])
-        ->name('create');
-
-    Route::post('/dodaj-ocenu', [OcenaController::class, 'store'])
-        ->name('store');
-
-});
 
 
 // =======================

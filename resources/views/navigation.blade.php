@@ -5,7 +5,7 @@
             MyShop
         </a>
 
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2 flex-wrap">
 
             <a href="{{ route('home') }}" class="btn btn-outline-light btn-sm">
                 Početna
@@ -15,23 +15,24 @@
                 Shop
             </a>
 
+            @auth
             <a href="{{ route('cart.index') }}" class="btn btn-outline-light btn-sm">
                 🛒 Korpa
             </a>
+            @endauth
 
-            <a href="{{ route('ocene.index') }}" class="btn btn-outline-light btn-sm">
-                Ocene
-            </a>
-
-            <a href="{{ route('ocene.create') }}" class="btn btn-outline-light btn-sm">
-                Dodaj ocenu
-            </a>
 
             <a href="{{ route('contact.form') }}" class="btn btn-outline-light btn-sm">
                 Kontakt
             </a>
 
             @auth
+
+            @if(auth()->user()->role === 'admin')
+            <a href="{{ route('admin.products') }}" class="btn btn-warning btn-sm">
+                Admin panel
+            </a>
+            @endif
 
             <form action="{{ route('logout') }}" method="POST" class="d-inline">
                 @csrf
