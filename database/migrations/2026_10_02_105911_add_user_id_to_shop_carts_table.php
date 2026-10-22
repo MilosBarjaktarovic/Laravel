@@ -9,17 +9,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('shop_carts', function (Blueprint $table) {
-            $table->foreignId('user_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
+            if (!Schema::hasColumn('shop_carts', 'user_id')) {
+                $table->foreignId('user_id')->nullable()->after('id')->constrained('users')->onDelete('cascade');
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('shop_carts', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
+            if (Schema::hasColumn('shop_carts', 'user_id')) {
+                $table->dropForeign(['user_id']);
+                $table->dropColumn('user_id');
+            }
         });
     }
 };
