@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    private $userRepo;
+
+    public function __construct(UserRepository $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+
     // Prikaz forme za registraciju
     public function showRegistrationForm()
     {
@@ -16,26 +25,22 @@ class AuthController extends Controller
     }
 
     // Registracija korisnika
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed'
+        $data = $request->validated();
 
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+        $user = $this->userRepo->create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
             'role' => 'user',
-
         ]);
 
         Auth::login($user);
+        $request->session()->regenerate();
 
-        return redirect('/')->with('success', 'Uspešno ste registrovani!');
+        return redirect('/')
+            ->with('success', 'Uspešno ste registrovani!');
     }
 
     // Prikaz forme za login
@@ -45,16 +50,15 @@ class AuthController extends Controller
     }
 
     // Login
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string'
-        ]);
+        $credentials = $request->validated();
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect('/')->with('success', 'Uspešno ste ulogovani!');
+
+            return redirect('/')
+                ->with('success', 'Uspešno ste ulogovani!');
         }
 
         return back()->withErrors([
@@ -66,8 +70,11 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login')->with('success', 'Uspešno ste se odjavili.');
+
+        return redirect('/login')
+            ->with('success', 'Uspešno ste se odjavili.');
     }
 }

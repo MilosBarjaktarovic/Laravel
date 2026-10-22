@@ -9,10 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('shop_carts', function (Blueprint $table) {
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
         });
     }
 
@@ -20,6 +19,7 @@ return new class extends Migration
     {
         Schema::table('shop_carts', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
         });
     }
 };

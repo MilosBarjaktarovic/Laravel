@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
@@ -10,12 +11,11 @@ use App\Http\Controllers\ShopController;
 
 
 // =======================
-// WELCOME
+// HOME
 // =======================
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, 'homeIndex'])
+->name('home');
 
 
 // =======================

@@ -42,11 +42,12 @@ class ProductRepository
 
     public function decreaseAmount($productId, $quantity)
     {
-    $product = $this->findById($productId);
+   $product = Product::where('id', $productId)
+   ->where('amount', '>=', $quantity)
+   ->firstOrFail();
 
-    $product->amount -= $quantity;
-    $product->save();
+  $product->decrement('amount', $quantity);
 
-    return $product;
-    }
+  return $product;
+  }
 }

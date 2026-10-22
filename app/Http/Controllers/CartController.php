@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use App\Http\Requests\AddToCartRequest;
 use App\Repositories\ShopCartRepository;
-use App\Models\Product;
 use App\Repositories\ProductRepository;
 
 class CartController extends Controller
@@ -29,7 +30,7 @@ class CartController extends Controller
     {
         $validated = $request->validated();
 
-        $product = Product::findOrFail($validated['product_id']);
+        $product = $this->productRepo->findById($validated['product_id']);
 
         $quantity = $validated['quantity'];
 
@@ -59,26 +60,30 @@ class CartController extends Controller
 
     public function checkout()
     {
+    try {
+    DB::transaction(function () {
     $cartItems = $this->shopCartRepo->getAll();
 
     if ($cartItems->isEmpty()) {
-    return back()->with('error', 'Korpa je prazna.');
+    throw ValidationException::withMessages([
+    'cart' => 'Korpa je prazna.',
+    ]);
     }
 
     foreach ($cartItems as $cartItem) {
-
-    $product = $this->productRepo->findById($cartItem->product_id);
+    $product = $this->productRepo->findById(
+    $cartItem->product_id
+    );
 
     if ($cartItem->quantity > $product->amount) {
-    return back()->with(
-    'error',
-    'Nema dovoljno proizvoda na stanju za: ' . $product->name
-    );
+    throw ValidationException::withMessages([
+    'cart' => 'Nema dovoljno proizvoda na stanju za: '
+    . $product->name,
+    ]);
     }
     }
 
     foreach ($cartItems as $cartItem) {
-
     $this->productRepo->decreaseAmount(
     $cartItem->product_id,
     $cartItem->quantity
@@ -86,10 +91,15 @@ class CartController extends Controller
 
     $this->shopCartRepo->delete($cartItem->id);
     }
+    });
+    } catch (ValidationException $e) {
+    return back()
+    ->withErrors($e->errors())
+    ->withInput();
+    }
 
     return redirect()
     ->route('cart.index')
     ->with('success', 'Hvala što ste kupovali kod nas!');
     }
-    
 }
