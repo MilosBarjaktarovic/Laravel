@@ -1,5 +1,13 @@
 ShopProject
 
+## Napomena
+
+Admin nalog za testiranje:
+
+Email: admin@shop.com
+
+Lozinka: Admin123
+
 Laravel domaći projekat.
 
 ## Kako pokrenuti
